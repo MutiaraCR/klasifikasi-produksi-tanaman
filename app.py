@@ -35,12 +35,12 @@ if uploaded_file:
     df = predict_tingkat_produksi(df)
 
     if df is not None:
-        selected_columns = ["Kecamatan", "Luas Wilayah (Km2)", "Total Produksi", "Produksi per Satuan Luas", "Tingkat Produksi"]
-        df_display = df[selected_columns] if all(col in df.columns for col in selected_columns) else df
+        selected_columns = ["Kecamatan", "Total Produksi", "Produksi per Satuan Luas", "Tingkat Produksi"]
+        df_display = df[selected_columns]
 
         st.markdown("## 📊 Hasil Prediksi")
         st.success("✅ Prediksi berhasil dilakukan! Berikut hasilnya:")
-        st.dataframe(df_display.style.applymap(lambda x: "color: #FF6F61;" if x == "Tinggi" else "color: #FFD700;" if x == "Sedang" else "color: #90EE90;", subset=["Tingkat Produksi"]))
+        st.dataframe(df_display.style.applymap(lambda x: "color: #90EE90;" if x == "Tinggi" else "color: #FFD700;" if x == "Sedang" else "color: #FF6F61;", subset=["Tingkat Produksi"]))
 
         col1, col2 = st.columns([1, 2])
 
@@ -51,7 +51,7 @@ if uploaded_file:
             kategori_values = kategori_counts.values
 
             fig = px.pie(names=kategori_labels, values=kategori_values, color=kategori_labels,
-                         color_discrete_map={"Tinggi": "#FF6F61", "Sedang": "#FFD700", "Rendah": "#90EE90"},
+                         color_discrete_map={"Tinggi": "#90EE90", "Sedang": "#FFD700", "Rendah": "#FF6F61"},
                          hole=0.4)
             st.plotly_chart(fig)
 
@@ -59,9 +59,9 @@ if uploaded_file:
             st.markdown("## ℹ️ Keterangan Jumlah Kategori")
             st.markdown(f"""
                 **Jumlah Kategori:**
-                - 🟥 **Tinggi:** {kategori_counts.get('Tinggi', 0)} data
+                - 🟩 **Tinggi:** {kategori_counts.get('Tinggi', 0)} data
                 - 🟨 **Sedang:** {kategori_counts.get('Sedang', 0)} data
-                - 🟩 **Rendah:** {kategori_counts.get('Rendah', 0)} data
+                - 🟥 **Rendah:** {kategori_counts.get('Rendah', 0)} data
             """)
 
         # Barchart
