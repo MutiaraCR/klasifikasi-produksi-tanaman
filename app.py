@@ -40,7 +40,20 @@ if uploaded_file:
 
         st.markdown("## 📊 Hasil Prediksi")
         st.success("✅ Prediksi berhasil dilakukan! Berikut hasilnya:")
-        st.dataframe(df_display.style.applymap(lambda x: "color: #90EE90;" if x == "Tinggi" else "color: #FFD700;" if x == "Sedang" else "color: #FF6F61;", subset=["Tingkat Produksi"]))
+        def color_produksi(val):
+            if val == "Tinggi":
+                return "color: #90EE90;"
+            elif val == "Sedang":
+                return "color: #FFD700;"
+            else:
+                return "color: #FF6F61;"
+        
+        styled_df = df_display.style.map(
+            color_produksi,
+            subset=["Tingkat Produksi"]
+        )
+        
+        st.dataframe(styled_df)
 
         col1, col2 = st.columns([1, 2])
 
